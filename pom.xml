@@ -9,11 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>coding-monks</groupId>
-	<artifactId>coding-monks-k8</artifactId>
+	<artifactId>simple-artifact</artifactId>
 	<version>1.0.0</version>
 	<name>coding-monks-k8</name>
 	<description>Initial project for Spring Boot</description>
-
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -28,8 +27,11 @@
 			<artifactId>spring-cloud-starter-kubernetes-config</artifactId>
 			<version>1.0.1.RELEASE</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -49,7 +51,28 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.3</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>codingmonks/${project.artifactId}</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE></buildArgs>
+				</configuration>
+			</plugin>
 		</plugins>
+		<finalName>simple-artifact</finalName>
 	</build>
-
 </project>
